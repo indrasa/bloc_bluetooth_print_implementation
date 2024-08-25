@@ -27,6 +27,10 @@ class Appku extends StatelessWidget {
                 // scan
                 TextButton(
                     onPressed: () {
+                      //bersihkan menu jika ada
+                      if (isiMenu.length > 0) {
+                        isiMenu = [];
+                      }
                       context.read<BluetoothThermalBloc>().add(BTScanEvent());
                     },
                     child: const Text("Scan Printer")),
