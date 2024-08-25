@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:bluetooth_print/bluetooth_print.dart';
+import 'package:bluetooth_print/bluetooth_print_model.dart';
 import 'package:meta/meta.dart';
 
 part 'bluetooth_thermal_event.dart';
@@ -10,6 +11,8 @@ part 'bluetooth_thermal_state.dart';
 class BluetoothThermalBloc
     extends Bloc<BluetoothThermalEvent, BluetoothThermalState> {
   BluetoothPrint _bluetoothPrint;
+  BluetoothDevice? _selectedPrinter;
+
   BluetoothThermalBloc(this._bluetoothPrint)
       : super(BluetoothThermalInitial()) {
     on<BTScanEvent>(_btScan);
@@ -21,6 +24,7 @@ class BluetoothThermalBloc
 
   FutureOr<void> _onPrinterSelected(
       PrinterSelected event, Emitter<BluetoothThermalState> emit) {
+    _selectedPrinter = event.printer;
     emit(PrinterSelectedState(event.printer));
   }
 
@@ -36,14 +40,21 @@ class BluetoothThermalBloc
   }
 
   FutureOr<void> _btConnect(
-      BTConnectEvent event, Emitter<BluetoothThermalState> emit) {
+      BTConnectEvent event, Emitter<BluetoothThermalState> emit) async {
     print("connecting");
-    emit(BTConnected());
+
+    if (_selectedPrinter != null) {
+      var konek = await _bluetoothPrint.connect(_selectedPrinter!);
+      emit(BTConnected());
+      print("Status Koneksi ke Printer: $konek");
+    }
   }
 
   FutureOr<void> _btDisconnect(
-      BTDisconnectEvent event, Emitter<BluetoothThermalState> emit) {
+      BTDisconnectEvent event, Emitter<BluetoothThermalState> emit) async {
     print("disconnecting");
+    var diskonek = await _bluetoothPrint.disconnect();
+    print("status diskonek printer: $diskonek");
     emit(BTDisconnected());
   }
 

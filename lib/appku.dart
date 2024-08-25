@@ -3,16 +3,13 @@ import 'package:bluetooth_print/bluetooth_print_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class Appku extends StatefulWidget {
-  const Appku({super.key});
+class Appku extends StatelessWidget {
+  Appku({super.key});
 
-  @override
-  State<Appku> createState() => _AppkuState();
-}
-
-class _AppkuState extends State<Appku> {
   BluetoothDevice? printerTerpilih;
+
   List<DropdownMenuItem> isiMenu = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,7 +77,7 @@ class _AppkuState extends State<Appku> {
                       } else if (state is BTLoading) {
                         return const CircularProgressIndicator();
                       } else {
-                        return const Text("No Printer Found");
+                        return const Text("No Printer Found or State Berubah");
                       }
                     },
                   ),
