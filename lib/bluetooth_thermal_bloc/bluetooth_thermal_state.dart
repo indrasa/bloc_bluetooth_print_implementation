@@ -4,3 +4,13 @@ part of 'bluetooth_thermal_bloc.dart';
 sealed class BluetoothThermalState {}
 
 final class BluetoothThermalInitial extends BluetoothThermalState {}
+
+final class BTScanned extends BluetoothThermalState {}
+
+final class BTConnected extends BluetoothThermalState {}
+
+final class BTDisconnected extends BluetoothThermalState {}
+
+final class BTPrinted extends BluetoothThermalState {}
+
+final class BTFailed extends BluetoothThermalState {}
