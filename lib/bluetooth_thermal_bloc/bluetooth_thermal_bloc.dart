@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
 import 'package:bluetooth_print/bluetooth_print.dart';
@@ -59,8 +60,45 @@ class BluetoothThermalBloc
   }
 
   FutureOr<void> _btPrint(
-      BTPrintEvent event, Emitter<BluetoothThermalState> emit) {
+      BTPrintEvent event, Emitter<BluetoothThermalState> emit) async {
     print("printing");
+
+    Map<String, dynamic> config = Map();
+    List<LineText> list = [];
+    list.add(LineText(
+        type: LineText.TYPE_TEXT,
+        content: 'A Title',
+        weight: 1,
+        align: LineText.ALIGN_CENTER,
+        linefeed: 1));
+    list.add(LineText(
+        type: LineText.TYPE_TEXT,
+        content: 'this is conent left',
+        weight: 0,
+        align: LineText.ALIGN_LEFT,
+        linefeed: 1));
+    list.add(LineText(
+        type: LineText.TYPE_TEXT,
+        content: 'this is conent right',
+        align: LineText.ALIGN_RIGHT,
+        linefeed: 1));
+    list.add(LineText(linefeed: 1));
+    list.add(LineText(
+        type: LineText.TYPE_BARCODE,
+        content: 'A12312112',
+        size: 10,
+        align: LineText.ALIGN_CENTER,
+        linefeed: 1));
+    list.add(LineText(linefeed: 1));
+    list.add(LineText(
+        type: LineText.TYPE_QRCODE,
+        content: 'qrcode i',
+        size: 10,
+        align: LineText.ALIGN_CENTER,
+        linefeed: 1));
+    list.add(LineText(linefeed: 1));
+
+    await _bluetoothPrint.printReceipt(config, list);
     emit(BTPrinted());
   }
 }
