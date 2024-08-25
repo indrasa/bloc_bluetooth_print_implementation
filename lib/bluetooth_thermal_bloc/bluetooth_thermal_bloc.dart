@@ -67,37 +67,173 @@ class BluetoothThermalBloc
     List<LineText> list = [];
     list.add(LineText(
         type: LineText.TYPE_TEXT,
-        content: 'A Title',
+        content: 'Mobil Masya Allah',
         weight: 1,
         align: LineText.ALIGN_CENTER,
         linefeed: 1));
     list.add(LineText(
         type: LineText.TYPE_TEXT,
-        content: 'this is conent left',
+        content: 'Masbagik - Lombok Timur',
         weight: 0,
-        align: LineText.ALIGN_LEFT,
+        align: LineText.ALIGN_CENTER,
         linefeed: 1));
     list.add(LineText(
         type: LineText.TYPE_TEXT,
-        content: 'this is conent right',
-        align: LineText.ALIGN_RIGHT,
-        linefeed: 1));
-    list.add(LineText(linefeed: 1));
-    list.add(LineText(
-        type: LineText.TYPE_BARCODE,
-        content: 'A12312112',
-        size: 10,
+        content: 'HP: 0819-7319-0000',
         align: LineText.ALIGN_CENTER,
         linefeed: 1));
     list.add(LineText(linefeed: 1));
     list.add(LineText(
-        type: LineText.TYPE_QRCODE,
-        content: 'qrcode i',
-        size: 10,
+        type: LineText.TYPE_TEXT,
+        content: 'Bukti Pembayaran Iuran Mobil',
+        weight: 1,
+        align: LineText.ALIGN_CENTER,
+        linefeed: 1));
+    list.add(LineText(linefeed: 1));
+    list.add(LineText(
+        type: LineText.TYPE_TEXT,
+        align: LineText.ALIGN_LEFT,
+        weight: 0,
+        linefeed: 1,
+        content: "ID Iuran: 1"));
+    list.add(LineText(
+        type: LineText.TYPE_TEXT,
+        align: LineText.ALIGN_LEFT,
+        weight: 0,
+        linefeed: 1,
+        content: "Nama: Indra Saputra Ahmadi"));
+    list.add(LineText(
+        type: LineText.TYPE_TEXT,
+        align: LineText.ALIGN_LEFT,
+        weight: 0,
+        linefeed: 1,
+        content: "Kelas: 6A"));
+    list.add(LineText(
+        type: LineText.TYPE_TEXT,
+        align: LineText.ALIGN_LEFT,
+        weight: 0,
+        linefeed: 1,
+        content: "Tanggal: 25-08-2024"));
+    list.add(LineText(linefeed: 1));
+    //header
+    list.add(LineText(
+        type: LineText.TYPE_TEXT,
+        content: '--------------------------------',
+        weight: 1,
+        align: LineText.ALIGN_CENTER,
+        linefeed: 1));
+
+    list.add(LineText(
+        type: LineText.TYPE_TEXT,
+        content: 'Bulan',
+        align: LineText.ALIGN_LEFT,
+        x: 0,
+        weight: 1,
+        relativeX: 0,
+        linefeed: 0));
+    list.add(LineText(
+        type: LineText.TYPE_TEXT,
+        content: 'Tanggal',
+        align: LineText.ALIGN_LEFT,
+        x: 130,
+        weight: 1,
+        relativeX: 0,
+        linefeed: 0));
+    list.add(LineText(
+        type: LineText.TYPE_TEXT,
+        content: 'Nominal',
+        align: LineText.ALIGN_LEFT,
+        x: 280,
+        weight: 1,
+        relativeX: 0,
+        linefeed: 1));
+
+    list.add(LineText(
+        type: LineText.TYPE_TEXT,
+        content: '--------------------------------',
+        weight: 1,
+        align: LineText.ALIGN_CENTER,
+        linefeed: 1));
+    // list iuran
+    list.add(LineText(
+        type: LineText.TYPE_TEXT,
+        content: 'Januari',
+        align: LineText.ALIGN_LEFT,
+        x: 0,
+        relativeX: 0,
+        linefeed: 0));
+    list.add(LineText(
+        type: LineText.TYPE_TEXT,
+        content: '1.1.24',
+        align: LineText.ALIGN_LEFT,
+        x: 130,
+        relativeX: 0,
+        linefeed: 0));
+    list.add(LineText(
+        type: LineText.TYPE_TEXT,
+        content: '150000',
+        align: LineText.ALIGN_LEFT,
+        x: 280,
+        relativeX: 0,
+        linefeed: 1));
+    // end list iuran
+    list.add(LineText(linefeed: 3));
+
+    // total
+    list.add(LineText(
+        type: LineText.TYPE_TEXT,
+        content: '--------------------------------',
+        weight: 1,
+        align: LineText.ALIGN_CENTER,
+        linefeed: 1));
+
+    list.add(LineText(
+        type: LineText.TYPE_TEXT,
+        content: 'Total',
+        weight: 1,
+        align: LineText.ALIGN_LEFT,
+        x: 0,
+        relativeX: 0,
+        linefeed: 0));
+
+    list.add(LineText(
+        type: LineText.TYPE_TEXT,
+        content: '300000',
+        align: LineText.ALIGN_LEFT,
+        x: 280,
+        relativeX: 0,
+        linefeed: 1));
+
+    list.add(LineText(
+        type: LineText.TYPE_TEXT,
+        content: '--------------------------------',
+        weight: 1,
         align: LineText.ALIGN_CENTER,
         linefeed: 1));
     list.add(LineText(linefeed: 1));
 
+    // ttd
+    list.add(LineText(
+        type: LineText.TYPE_TEXT,
+        content: 'Masbagik, 17 Agustus 1945',
+        weight: 0,
+        align: LineText.ALIGN_CENTER,
+        linefeed: 1));
+    list.add(LineText(
+        type: LineText.TYPE_TEXT,
+        content: 'Admin',
+        weight: 0,
+        align: LineText.ALIGN_CENTER,
+        linefeed: 1));
+    list.add(LineText(linefeed: 1));
+    list.add(LineText(linefeed: 1));
+    list.add(LineText(linefeed: 1));
+    list.add(LineText(
+        type: LineText.TYPE_TEXT,
+        content: 'Lilik Ahmadi',
+        weight: 1,
+        align: LineText.ALIGN_CENTER,
+        linefeed: 1));
     await _bluetoothPrint.printReceipt(config, list);
     emit(BTPrinted());
   }
