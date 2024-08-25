@@ -2,9 +2,14 @@ import 'package:bloc_bluetooth_print/bluetooth_thermal_bloc/bluetooth_thermal_bl
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class Appku extends StatelessWidget {
+class Appku extends StatefulWidget {
   const Appku({super.key});
 
+  @override
+  State<Appku> createState() => _AppkuState();
+}
+
+class _AppkuState extends State<Appku> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,9 +30,37 @@ class Appku extends StatelessWidget {
                       context.read<BluetoothThermalBloc>().add(BTScanEvent());
                     },
                     child: const Text("Scan Printer")),
-                DropdownButton(
-                  items: [],
-                  onChanged: (value) {},
+                BlocBuilder<BluetoothThermalBloc, BluetoothThermalState>(
+                  builder: (context, state) {
+                    if (state is BTScanned) {
+                      // print(state.statusScan);
+                      List<DropdownMenuItem> isiMenu = [];
+                      var printerTerpilih = null;
+                      for (var item in state.statusScan) {
+                        print(item.name);
+                        print(item.address);
+                        isiMenu.add(
+                          DropdownMenuItem(
+                            child: Text("${item.name} (${item.address})"),
+                            value: item,
+                          ),
+                        );
+                      }
+                      return DropdownButton(
+                        items: isiMenu,
+                        onChanged: (printer) {
+                          setState(() {
+                            printerTerpilih = printer;
+                            print("printer sudah dipilih");
+                          });
+                        },
+                      );
+                    } else if (state is BTLoading) {
+                      return const CircularProgressIndicator();
+                    } else {
+                      return const Text("No Printer Found");
+                    }
+                  },
                 ),
 
                 // connect

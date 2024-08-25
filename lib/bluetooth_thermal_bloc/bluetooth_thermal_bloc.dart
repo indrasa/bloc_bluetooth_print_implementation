@@ -19,9 +19,14 @@ class BluetoothThermalBloc
   }
 
   FutureOr<void> _btScan(
-      BTScanEvent event, Emitter<BluetoothThermalState> emit) {
+      BTScanEvent event, Emitter<BluetoothThermalState> emit) async {
     print("scanning");
-    emit(BTScanned());
+    emit(BTLoading());
+    var statusScan =
+        await _bluetoothPrint.startScan(timeout: const Duration(seconds: 4));
+    print("status scan");
+    print(statusScan);
+    emit(BTScanned(statusScan));
   }
 
   FutureOr<void> _btConnect(
