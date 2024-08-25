@@ -12,3 +12,8 @@ class BTConnectEvent extends BluetoothThermalEvent {}
 class BTDisconnectEvent extends BluetoothThermalEvent {}
 
 class BTPrintEvent extends BluetoothThermalEvent {}
+
+class PrinterSelected extends BluetoothThermalEvent {
+  final printer;
+  PrinterSelected(this.printer);
+}

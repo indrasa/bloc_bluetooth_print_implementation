@@ -1,4 +1,5 @@
 import 'package:bloc_bluetooth_print/bluetooth_thermal_bloc/bluetooth_thermal_bloc.dart';
+import 'package:bluetooth_print/bluetooth_print_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,6 +11,8 @@ class Appku extends StatefulWidget {
 }
 
 class _AppkuState extends State<Appku> {
+  BluetoothDevice? printerTerpilih;
+  List<DropdownMenuItem> isiMenu = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,37 +33,57 @@ class _AppkuState extends State<Appku> {
                       context.read<BluetoothThermalBloc>().add(BTScanEvent());
                     },
                     child: const Text("Scan Printer")),
-                BlocBuilder<BluetoothThermalBloc, BluetoothThermalState>(
-                  builder: (context, state) {
-                    if (state is BTScanned) {
-                      // print(state.statusScan);
-                      List<DropdownMenuItem> isiMenu = [];
-                      var printerTerpilih = null;
-                      for (var item in state.statusScan) {
-                        print(item.name);
-                        print(item.address);
-                        isiMenu.add(
-                          DropdownMenuItem(
-                            child: Text("${item.name} (${item.address})"),
-                            value: item,
-                          ),
-                        );
-                      }
-                      return DropdownButton(
-                        items: isiMenu,
-                        onChanged: (printer) {
-                          setState(() {
-                            printerTerpilih = printer;
-                            print("printer sudah dipilih");
-                          });
-                        },
-                      );
-                    } else if (state is BTLoading) {
-                      return const CircularProgressIndicator();
-                    } else {
-                      return const Text("No Printer Found");
+                BlocListener<BluetoothThermalBloc, BluetoothThermalState>(
+                  listener: (context, state) {
+                    if (state is PrinterSelectedState) {
+                      printerTerpilih = state.selectedPrinter;
+                      // setState(() {
+                      // });
                     }
                   },
+                  child:
+                      BlocBuilder<BluetoothThermalBloc, BluetoothThermalState>(
+                    builder: (context, state) {
+                      if (state is BTScanned) {
+                        for (var item in state.statusScan) {
+                          isiMenu.add(
+                            DropdownMenuItem(
+                              child: Text("${item.name} (${item.address})"),
+                              value: item,
+                            ),
+                          );
+                        }
+
+                        return DropdownButton(
+                          items: isiMenu,
+                          value:
+                              printerTerpilih, // Set dropdown value to selected printer
+                          onChanged: (printer) {
+                            print("printer terpilih: $printer");
+                            context.read<BluetoothThermalBloc>().add(
+                                PrinterSelected(
+                                    printer)); // Trigger event to save selected printer
+                          },
+                        );
+                      } else if (state is PrinterSelectedState) {
+                        return DropdownButton(
+                          items: isiMenu,
+                          value:
+                              printerTerpilih, // Set dropdown value to selected printer
+                          onChanged: (printer) {
+                            print("printer terpilih: $printer");
+                            context.read<BluetoothThermalBloc>().add(
+                                PrinterSelected(
+                                    printer)); // Trigger event to save selected printer
+                          },
+                        );
+                      } else if (state is BTLoading) {
+                        return const CircularProgressIndicator();
+                      } else {
+                        return const Text("No Printer Found");
+                      }
+                    },
+                  ),
                 ),
 
                 // connect

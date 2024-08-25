@@ -19,3 +19,8 @@ final class BTDisconnected extends BluetoothThermalState {}
 final class BTPrinted extends BluetoothThermalState {}
 
 final class BTFailed extends BluetoothThermalState {}
+
+final class PrinterSelectedState extends BluetoothThermalState {
+  final selectedPrinter;
+  PrinterSelectedState(this.selectedPrinter);
+}

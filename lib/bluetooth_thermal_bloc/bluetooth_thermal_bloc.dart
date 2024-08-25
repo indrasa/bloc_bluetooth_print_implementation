@@ -16,6 +16,12 @@ class BluetoothThermalBloc
     on<BTConnectEvent>(_btConnect);
     on<BTDisconnectEvent>(_btDisconnect);
     on<BTPrintEvent>(_btPrint);
+    on<PrinterSelected>(_onPrinterSelected);
+  }
+
+  FutureOr<void> _onPrinterSelected(
+      PrinterSelected event, Emitter<BluetoothThermalState> emit) {
+    emit(PrinterSelectedState(event.printer));
   }
 
   FutureOr<void> _btScan(
